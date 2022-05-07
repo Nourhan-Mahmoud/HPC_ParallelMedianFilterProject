@@ -4,6 +4,7 @@
 #include<string.h>
 #include<msclr\marshal_cppstd.h>
 #include <ctime>// include this header 
+#include "sequential_median_filter.h"
 #pragma once
 
 #using <mscorlib.dll>
@@ -13,12 +14,14 @@
 using namespace std;
 using namespace msclr::interop;
 
+int OriginalImageWidth, OriginalImageHeight;
+
 int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of image in w & h
 {
 	int* input;
 
 
-	int OriginalImageWidth, OriginalImageHeight;
+	
 
 	//*********************************************************Read Image and save it to local arrayss*************************	
 	//Read Image and save it to local arrayss
@@ -51,7 +54,6 @@ int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of ima
 	return input;
 }
 
-
 void createImage(int* image, int width, int height, int index)
 {
 	System::Drawing::Bitmap MyNewImage(width, height);
@@ -78,7 +80,6 @@ void createImage(int* image, int width, int height, int index)
 	cout << "result Image Saved " << index << endl;
 }
 
-
 int main()
 {
 	int ImageWidth = 4, ImageHeight = 4;
@@ -92,14 +93,20 @@ int main()
 	imagePath = marshal_as<System::String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
 
+    #pragma region Sequential Median Filter
+	sequential_median_filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight);
+	int* re_imageData = seq_f.returned_imageData();
+    #pragma endregion
 
 	start_s = clock();
-	createImage(imageData, ImageWidth, ImageHeight, 0);
+	createImage(re_imageData, ImageWidth, ImageHeight, 0);
 	stop_s = clock();
 	TotalTime += (stop_s - start_s) / double(CLOCKS_PER_SEC) * 1000;
 	cout << "time: " << TotalTime << endl;
-
+	
 	free(imageData);
+
+	system("pause");
 	return 0;
 
 }

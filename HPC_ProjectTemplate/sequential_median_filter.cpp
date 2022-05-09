@@ -3,13 +3,13 @@
 sequential_median_filter::sequential_median_filter(int* imageArray, int OriginalImageWidth,int OriginalImageHeight) {
 	img_data = imageArray;
 	int mask[3][3] = { {0,0,0},{0,0,0},{0,0,0} };
-	
+	/*
 	for (int i = 0; i < OriginalImageHeight; i++) {
 		for (int j = 0; j < OriginalImageWidth; j++) {
 
 		}
 	}
-
+	*/
 
 	
 }

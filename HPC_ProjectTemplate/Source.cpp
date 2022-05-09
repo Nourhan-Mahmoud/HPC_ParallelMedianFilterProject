@@ -20,9 +20,6 @@ int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of ima
 {
 	int* input;
 
-
-	
-
 	//*********************************************************Read Image and save it to local arrayss*************************	
 	//Read Image and save it to local arrayss
 
@@ -30,12 +27,14 @@ int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of ima
 
 	OriginalImageWidth = BM.Width;
 	OriginalImageHeight = BM.Height;
+	
 	*w = BM.Width;
 	*h = BM.Height;
 	int *Red = new int[BM.Height * BM.Width];
 	int *Green = new int[BM.Height * BM.Width];
 	int *Blue = new int[BM.Height * BM.Width];
 	input = new int[BM.Height*BM.Width];
+
 	for (int i = 0; i < BM.Height; i++)
 	{
 		for (int j = 0; j < BM.Width; j++)
@@ -84,7 +83,11 @@ int main()
 {
 	int ImageWidth = 4, ImageHeight = 4;
 
-	int start_s, stop_s, TotalTime = 0;
+    #pragma region  Get mask Size of the user
+	int maskSize;
+	cout << "Please enter mask size that you want : \n(Note* make sure that it is odd number like 3,5,7,...,etc)\n =:";
+	cin >> maskSize;
+    #pragma endregion
 
 	System::String^ imagePath;
 	std::string img;
@@ -93,17 +96,24 @@ int main()
 	imagePath = marshal_as<System::String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
 
+
     #pragma region Sequential Median Filter
-	sequential_median_filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight);
+
+	int start_time_For_SeqentialCode, stop_time_For_SeqentialCode, Totaltime_For_SeqentialCode = 0;
+
+	start_time_For_SeqentialCode = clock();
+
+	sequential_median_filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight,maskSize);
 	int* re_imageData = seq_f.returned_imageData();
+
+	createImage(re_imageData, ImageWidth, ImageHeight, 0);
+
+	stop_time_For_SeqentialCode = clock();
+	Totaltime_For_SeqentialCode += (stop_time_For_SeqentialCode - start_time_For_SeqentialCode) / double(CLOCKS_PER_SEC) * 1000;
+	cout << "Time For Sequential Code : " << Totaltime_For_SeqentialCode << endl;
     #pragma endregion
 
-	start_s = clock();
-	createImage(re_imageData, ImageWidth, ImageHeight, 0);
-	stop_s = clock();
-	TotalTime += (stop_s - start_s) / double(CLOCKS_PER_SEC) * 1000;
-	cout << "time: " << TotalTime << endl;
-	
+
 	free(imageData);
 
 	system("pause");

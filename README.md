@@ -1,3 +1,4 @@
+# HPC_ParallelMedianFilterProject
 #Parallel Median Filter
 The median filter is a nonlinear digital filtering technique, often used to remove 
 noise from an image or signal. Such noise reduction is a typical pre-processing 

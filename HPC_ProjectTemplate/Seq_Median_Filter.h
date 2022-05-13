@@ -8,16 +8,18 @@
 
 using namespace std;
 
-ref class sequential_median_filter
+ref class Seq_Median_Filter
 {
 public:
 
 	int* FinalData;
-    int* imgWithBorders;
-	int* image;
-	sequential_median_filter(int*, int , int ,int );
+	int width, height;
+	int** imgWithBorders;
+	Seq_Median_Filter(int*, int, int, int);
 	int* returned_imageData();
-	int* returned_imgWithBorders(int* , int , int, int);
-	~sequential_median_filter();
+	int**re_imgWithBorders(int*, int, int, int);
+	int return_w();
+	int return_h();
+	~Seq_Median_Filter();
 };
 

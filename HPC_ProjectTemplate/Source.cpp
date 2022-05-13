@@ -4,18 +4,15 @@
 #include<string.h>
 #include<msclr\marshal_cppstd.h>
 #include <ctime>// include this header 
-#include "sequential_median_filter.h"
+#include "Seq_Median_Filter.h"
 #pragma once
-
 #using <mscorlib.dll>
 #using <System.dll>
 #using <System.Drawing.dll>
 #using <System.Windows.Forms.dll>
 using namespace std;
 using namespace msclr::interop;
-
 int OriginalImageWidth, OriginalImageHeight;
-
 int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of image in w & h
 {
 	int* input;
@@ -52,11 +49,10 @@ int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of ima
 	}
 	return input;
 }
-
 void createImage(int* image, int width, int height, int index)
 {
+	//cout << width << height<<"Done!\n";
 	System::Drawing::Bitmap MyNewImage(width, height);
-
 
 	for (int i = 0; i < MyNewImage.Height; i++)
 	{
@@ -78,7 +74,6 @@ void createImage(int* image, int width, int height, int index)
 	MyNewImage.Save("..//Data//Output//outputRes" + index + ".png");
 	cout << "result Image Saved " << index << endl;
 }
-
 int main()
 {
 	int ImageWidth = 4, ImageHeight = 4;
@@ -91,7 +86,7 @@ int main()
 
 	System::String^ imagePath;
 	std::string img;
-	img = "..//Data//Input//test.png";
+	img = "..//Data//Input//test.jpg";
 
 	imagePath = marshal_as<System::String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
@@ -103,14 +98,17 @@ int main()
 
 	start_time_For_SeqentialCode = clock();
 
-	sequential_median_filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight,maskSize);
+	Seq_Median_Filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight,maskSize);
 	int* re_imageData = seq_f.returned_imageData();
 
-	createImage(re_imageData, ImageWidth, ImageHeight, 0);
+	int w = seq_f.return_w();
+	int h = seq_f.return_h();
+	createImage(re_imageData, w, h, 0);
 
 	stop_time_For_SeqentialCode = clock();
 	Totaltime_For_SeqentialCode += (stop_time_For_SeqentialCode - start_time_For_SeqentialCode) / double(CLOCKS_PER_SEC) * 1000;
 	cout << "Time For Sequential Code : " << Totaltime_For_SeqentialCode << endl;
+
     #pragma endregion
 
 

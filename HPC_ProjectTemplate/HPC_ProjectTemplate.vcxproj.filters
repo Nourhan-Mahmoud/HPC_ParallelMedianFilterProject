@@ -18,12 +18,12 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sequential_median_filter.cpp">
+    <ClCompile Include="Seq_Median_Filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sequential_median_filter.h">
+    <ClInclude Include="Seq_Median_Filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

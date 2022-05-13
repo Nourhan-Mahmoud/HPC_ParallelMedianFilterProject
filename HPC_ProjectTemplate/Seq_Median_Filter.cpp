@@ -10,6 +10,15 @@ Seq_Median_Filter::Seq_Median_Filter(int* Arr, int Width, int Height, int maskSi
 
 	re_imgWithBorders_v = re_imgWithBorders(Arr, maskSize, Width, Height);
 
+
+	FinalImage = new int* [Height + maskSize - 1];
+	for (int i = 0; i < height + maskSize - 1; ++i)
+	{
+		FinalImage[i] = new int[width + maskSize - 1];
+	}
+
+	FinalImage = applyMask(re_imgWithBorders_v, maskSize,width,height);
+
 }
 
 int** Seq_Median_Filter::re_imgWithBorders(int* imageData, int ms, int w, int h)
@@ -22,7 +31,6 @@ int** Seq_Median_Filter::re_imgWithBorders(int* imageData, int ms, int w, int h)
 	{
 		imgWithBorders[i] = new int[w + ms - 1];
 	}
-
 	int x = 0;//For imageData.
     #pragma endregion
 
@@ -34,7 +42,7 @@ int** Seq_Median_Filter::re_imgWithBorders(int* imageData, int ms, int w, int h)
 			{
 				imgWithBorders[i][j] = 0;
 			}
-			else if( i > h) //For BOTTOM
+			else if( i > (h-1+(ms/2))) //For BOTTOM
 			{
 				imgWithBorders[i][j] = 0;
 			}
@@ -42,7 +50,7 @@ int** Seq_Median_Filter::re_imgWithBorders(int* imageData, int ms, int w, int h)
 			{
 				imgWithBorders[i][j] = 0;
 			}
-			else if (j > w) //FOR RIGHT
+			else if (j > ((w-1)+(ms/2))) //FOR RIGHT
 			{
 				imgWithBorders[i][j] = 0;
 			}
@@ -60,19 +68,69 @@ int** Seq_Median_Filter::re_imgWithBorders(int* imageData, int ms, int w, int h)
 	return imgWithBorders;
 }
 
-int* Seq_Median_Filter::returned_imageData()
-{
-	int* re_imgWithBorders = new int[width * height];
+int** Seq_Median_Filter::applyMask(int** img, int ms, int w, int h) {
 
-	for (int i = 0; i < height; i++)
+	int** mask = new int* [ms];
+	for (int i = 0; i < ms; ++i)
 	{
-		for (int j = 0; j < width; j++)
+		mask[i] = new int[ms];
+	}
+
+	for (int i = 0; i < h; ++i)//For Rows
+	{
+		for (int j = 0; j < w; ++j)//For Columns
 		{
-			re_imgWithBorders[i * width + j] = imgWithBorders[i][j];
+			for (int x = 0; x < ms; x++) //For mask Rows
+			{
+				for (int y = 0; y < ms; y++)//For mask Columns
+				{
+					int ii = x+i;
+					int jj = y+j;
+					mask[x][y] = img[ii][jj];
+				}
+			}
+
+			//Sort and apply Filter
+			img[i][j] = SortImageMask(mask,ms);
+		}
+	}
+	return img;
+}
+
+int Seq_Median_Filter::SortImageMask(int** mask,int ms)
+{
+	int* m = new int[ms*ms];
+
+	for (int i = 0; i < ms; i++)
+	{
+		for (int j = 0; j < ms; j++)
+		{
+			m[i * ms + j] = mask[i][j];
+		}
+	}
+
+	sort(m, m + (ms*ms));
+
+	int target = m[(ms * ms) / 2];
+
+	return target;
+}
+int* Seq_Median_Filter::returned_imageData(int w, int h)
+{
+	//cout << w << " " << h << "Class\n";
+	int* final_img = new int[w * h];
+
+	for (int i = 0; i < h; i++)
+	{
+		for (int j = 0; j < w; j++)
+		{
+			final_img[i * w + j] = FinalImage[i][j];
 
 		}
 	}
-	return re_imgWithBorders;
+
+	return final_img;
+	
 }
 
 int Seq_Median_Filter::return_w()
@@ -87,6 +145,5 @@ int Seq_Median_Filter::return_h()
 
 Seq_Median_Filter::~Seq_Median_Filter()
 {
-	free(imgWithBorders);
-	free(FinalData);
+	free(FinalImage);
 }

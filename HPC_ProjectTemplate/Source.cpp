@@ -98,12 +98,10 @@ int main()
 
 	start_time_For_SeqentialCode = clock();
 
-	Seq_Median_Filter seq_f(imageData,OriginalImageWidth,OriginalImageHeight,maskSize);
-	int* re_imageData = seq_f.returned_imageData();
+	Seq_Median_Filter seq_f(imageData, OriginalImageWidth, OriginalImageHeight, maskSize);
+	int* re_imageData = seq_f.returned_imageData(OriginalImageWidth, OriginalImageHeight);
 
-	int w = seq_f.return_w();
-	int h = seq_f.return_h();
-	createImage(re_imageData, w, h, 0);
+	createImage(re_imageData, OriginalImageWidth, OriginalImageHeight, 0);
 
 	stop_time_For_SeqentialCode = clock();
 	Totaltime_For_SeqentialCode += (stop_time_For_SeqentialCode - start_time_For_SeqentialCode) / double(CLOCKS_PER_SEC) * 1000;

@@ -18,5 +18,5 @@ step to improve the results of later processing.
 
 | requirment        |    1 pic N* N   | 1 pic 5N* 5N    | 1 pic 10N* 10N  | 10 pics 5N* 5N |    
 | :---------------: | :-------------: | :-------------: | :-------------: | :------------: | 
-| `sequential code` |                 |                 |                 |                |
+| `sequential code` |      799        |      18748      |      38289      |       53884    |
 | `MPI Sol1`        |                 |                 |                 |                |

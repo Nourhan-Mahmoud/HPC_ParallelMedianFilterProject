@@ -23,5 +23,8 @@ step to improve the results of later processing.
 
 # Notes
 1- For 1 pic (N * N) and 1 pic (5N * 5N), we use (7 * 7) mask.
+
 2- For 1 pic (10N * 10N), we use (5 * 5) mask.
+
 3- For 10 pics (5N * 5N), we use (3 * 3) mask.
+

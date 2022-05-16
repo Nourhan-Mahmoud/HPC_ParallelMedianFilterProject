@@ -5,6 +5,7 @@
 #include<msclr\marshal_cppstd.h>
 #include <ctime>// include this header 
 #include "Seq_Median_Filter.h"
+#include "ParallelMedianFilter.h"
 #pragma once
 #using <mscorlib.dll>
 #using <System.dll>
@@ -80,7 +81,7 @@ int main()
 
     #pragma region  Get mask Size of the user
 	int maskSize;
-	cout << "Please enter mask size that you want : \n(Note* make sure that it is odd number like 3,5,7,...,etc)\n =:";
+	cout << "Please enter mask size that you want : \n(Note* make sure that it is odd number like 3,5,7,...,etc)\n =: ";
 	cin >> maskSize;
     #pragma endregion
 
@@ -110,7 +111,28 @@ int main()
     #pragma endregion
 
 
+	#pragma region Parallel Median Filter
+
+	int start_time_For_Parallel, stop_time_For_Parallel, Totaltime_For_Parallel = 0;
+
+	start_time_For_Parallel = clock();
+
+	ParallelMedianFilter Parallel_f(imageData, OriginalImageWidth, OriginalImageHeight, maskSize);
+	int* re_imageData_Parallel = Parallel_f.returned_imageData_parallel(OriginalImageWidth, OriginalImageHeight);
+
+	createImage(re_imageData_Parallel, OriginalImageWidth, OriginalImageHeight, 0);
+
+	stop_time_For_Parallel = clock();
+	Totaltime_For_Parallel += (stop_time_For_Parallel - start_time_For_Parallel) / double(CLOCKS_PER_SEC) * 1000;
+	cout << "Time For Parallel Code : " << Totaltime_For_Parallel << endl;
+
+	#pragma endregion
+
+
+
 	free(imageData);
+	free(re_imageData);
+	free(re_imageData_Parallel);
 
 	system("pause");
 	return 0;

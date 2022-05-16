@@ -21,9 +21,15 @@
     <ClCompile Include="Seq_Median_Filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParallelMedianFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Seq_Median_Filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallelMedianFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

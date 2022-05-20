@@ -79,21 +79,20 @@ int main()
 {
 	int ImageWidth = 4, ImageHeight = 4;
 
-    #pragma region  Get mask Size of the user
-	int maskSize;
-	cout << "Please enter mask size that you want : \n(Note* make sure that it is odd number like 3,5,7,...,etc)\n =: ";
-	cin >> maskSize;
+    #pragma region  Set Mask Size
+	int maskSize = 3;
+	cout << "Mask Size is "<<maskSize<<"\n";
     #pragma endregion
 
 	System::String^ imagePath;
 	std::string img;
-	img = "..//Data//Input//test.jpg";
+	img = "..//Data//Input//test5.jpg";
 
 	imagePath = marshal_as<System::String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
 
 
-    #pragma region Sequential Median Filter
+   /* #pragma region Sequential Median Filter
 
 	int start_time_For_SeqentialCode, stop_time_For_SeqentialCode, Totaltime_For_SeqentialCode = 0;
 
@@ -103,13 +102,12 @@ int main()
 	int* re_imageData = seq_f.returned_imageData(OriginalImageWidth, OriginalImageHeight);
 
 	createImage(re_imageData, OriginalImageWidth, OriginalImageHeight, 0);
-
+	
 	stop_time_For_SeqentialCode = clock();
 	Totaltime_For_SeqentialCode += (stop_time_For_SeqentialCode - start_time_For_SeqentialCode) / double(CLOCKS_PER_SEC) * 1000;
 	cout << "Time For Sequential Code : " << Totaltime_For_SeqentialCode << endl;
 
-    #pragma endregion
-
+    #pragma endregion*/
 
 	#pragma region Parallel Median Filter
 
@@ -119,8 +117,8 @@ int main()
 
 	ParallelMedianFilter Parallel_f(imageData, OriginalImageWidth, OriginalImageHeight, maskSize);
 	int* re_imageData_Parallel = Parallel_f.returned_imageData_parallel(OriginalImageWidth, OriginalImageHeight);
+	createImage(re_imageData_Parallel, OriginalImageWidth, OriginalImageHeight, i);
 
-	createImage(re_imageData_Parallel, OriginalImageWidth, OriginalImageHeight, 0);
 
 	stop_time_For_Parallel = clock();
 	Totaltime_For_Parallel += (stop_time_For_Parallel - start_time_For_Parallel) / double(CLOCKS_PER_SEC) * 1000;
@@ -129,9 +127,8 @@ int main()
 	#pragma endregion
 
 
-
 	free(imageData);
-	free(re_imageData);
+	//free(re_imageData);
 	free(re_imageData_Parallel);
 
 	system("pause");

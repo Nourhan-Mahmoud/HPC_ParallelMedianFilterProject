@@ -19,23 +19,9 @@ ParallelMedianFilter::ParallelMedianFilter(int* Arr, int Width, int Height, int 
 
     MPI_Scatter(Arr, sizePerMachine * Width, MPI_INT, recv, sizePerMachine * Width, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	int** re_imgWithBorders_v = new int* [sizePerMachine + maskSize - 1];
-	for (int i = 0; i < sizePerMachine + maskSize - 1; ++i)
-	{
-		re_imgWithBorders_v[i] = new int[Width + maskSize - 1];
-	}
+	int** re_imgWithBorders_v =  re_imgWithBorders(Arr, maskSize, Width, sizePerMachine);
 
-	re_imgWithBorders_v = re_imgWithBorders(Arr, maskSize, Width, sizePerMachine);
-
-
-
-	int** FinalImage = new int* [sizePerMachine + maskSize - 1];
-	for (int i = 0; i < sizePerMachine + maskSize - 1; ++i)
-	{
-		FinalImage[i] = new int[Width + maskSize - 1];
-	}
-
-	FinalImage = applyMask(re_imgWithBorders_v, maskSize, Width, sizePerMachine);
+	int** FinalImage = applyMask(re_imgWithBorders_v, maskSize, Width, sizePerMachine);
 
 
 	int* final_img = new int[sizePerMachine * Width];

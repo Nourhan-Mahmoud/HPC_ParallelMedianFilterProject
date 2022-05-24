@@ -2,21 +2,7 @@
 
 Seq_Median_Filter::Seq_Median_Filter(int* Arr, int Width, int Height, int maskSize)
 {
-	int** re_imgWithBorders_v = new int* [Height + maskSize - 1];
-	for (int i = 0; i < height + maskSize - 1; ++i)
-	{
-		re_imgWithBorders_v[i] = new int[width + maskSize - 1];
-	}
-
-	re_imgWithBorders_v = re_imgWithBorders(Arr, maskSize, Width, Height);
-
-
-	FinalImage = new int* [Height + maskSize - 1];
-	for (int i = 0; i < height + maskSize - 1; ++i)
-	{
-		FinalImage[i] = new int[width + maskSize - 1];
-	}
-
+	int** re_imgWithBorders_v = re_imgWithBorders(Arr, maskSize, Width, Height);
 	FinalImage = applyMask(re_imgWithBorders_v, maskSize,width,height);
 
 }

@@ -13,6 +13,7 @@
 #using <System.Windows.Forms.dll>
 using namespace std;
 using namespace msclr::interop;
+
 int OriginalImageWidth, OriginalImageHeight;
 int* inputImage(int* w, int* h, System::String^ imagePath) //put the size of image in w & h
 {
@@ -75,6 +76,7 @@ void createImage(int* image, int width, int height, int index)
 	MyNewImage.Save("..//Data//Output//outputRes" + index + ".png");
 	cout << "result Image Saved " << index << endl;
 }
+
 int main()
 {
 	int ImageWidth = 4, ImageHeight = 4;
@@ -86,13 +88,13 @@ int main()
 
 	System::String^ imagePath;
 	std::string img;
-	img = "..//Data//Input//test5.jpg";
+	img = "..//Data//Input//N_N_Salt_Pepper.png";
 
 	imagePath = marshal_as<System::String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
 
 
-   /* #pragma region Sequential Median Filter
+    #pragma region Sequential Median Filter
 
 	int start_time_For_SeqentialCode, stop_time_For_SeqentialCode, Totaltime_For_SeqentialCode = 0;
 
@@ -107,7 +109,7 @@ int main()
 	Totaltime_For_SeqentialCode += (stop_time_For_SeqentialCode - start_time_For_SeqentialCode) / double(CLOCKS_PER_SEC) * 1000;
 	cout << "Time For Sequential Code : " << Totaltime_For_SeqentialCode << endl;
 
-    #pragma endregion*/
+    #pragma endregion
 
 	#pragma region Parallel Median Filter
 
@@ -117,7 +119,7 @@ int main()
 
 	ParallelMedianFilter Parallel_f(imageData, OriginalImageWidth, OriginalImageHeight, maskSize);
 	int* re_imageData_Parallel = Parallel_f.returned_imageData_parallel(OriginalImageWidth, OriginalImageHeight);
-	createImage(re_imageData_Parallel, OriginalImageWidth, OriginalImageHeight, i);
+	createImage(re_imageData_Parallel, OriginalImageWidth, OriginalImageHeight, 1);
 
 
 	stop_time_For_Parallel = clock();
@@ -128,7 +130,7 @@ int main()
 
 
 	free(imageData);
-	//free(re_imageData);
+	free(re_imageData);
 	free(re_imageData_Parallel);
 
 	system("pause");

@@ -3,7 +3,7 @@ The median filter is a nonlinear digital filtering technique, often used to remo
 noise from an image or signal. Such noise reduction is a typical pre-processing 
 step to improve the results of later processing.
 
-# Requirement
+# Requirements
 • Size of window is dynamic (9,25,49,..).
 
 • Render your results.
@@ -16,15 +16,14 @@ step to improve the results of later processing.
   
 • Record your Results.
 
-| requirment        |    1 pic N* N   | 1 pic 5N* 5N    | 1 pic 10N* 10N  | 10 pics 5N* 5N |    
-| :---------------: | :-------------: | :-------------: | :-------------: | :------------: | 
-| `sequential code` |      799        |      18748      |      38289      |       53884    |
-| `MPI Sol1`        |      734        |      13260      |      30118      |                |
+| requirment        |    1 pic N* N   | 1 pic 5N* 5N    | 1 pic 10N* 10N  | 
+| :---------------: | :-------------: | :-------------: | :-------------: | 
+| `sequential code` |      799        |      18748      |      38289      | 
+| `MPI Sol1`        |      734        |      13260      |      30118      |
 
 # Notes
 1- For 1 pic (N * N) and 1 pic (5N * 5N), we use (7 * 7) mask.
 
 2- For 1 pic (10N * 10N), we use (5 * 5) mask.
 
-3- For 10 pics (5N * 5N), we use (3 * 3) mask.
 
